@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Monster Shop</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+    <nav class = "topnav">
+
+      <%= link_to 'Home', '/' %>
+      <% if !current_user || !current_admin? %>
+        <%= link_to "All Merchants", "/merchants" %>
+        <%= link_to "All Items", "/items" %>
+      <% end %>
+
+      <% if current_default? %>
+        <%= link_to "Log Out", '/logout', method: :delete %>
+        <%= link_to 'My Profile', '/profile' %>
+        <%= link_to "Logged in as #{current_user.name}", '/profile' %>
+        <%= link_to "Cart: #{cart.total_items}", "/cart" %>
+      <% elsif current_merchant_employee? || current_merchant_admin? %>
+        <%= link_to "Log Out", '/logout', method: :delete %>
+        <%= link_to 'My Profile', '/profile' %>
+        <%= link_to 'Merchant Dashboard', merchant_path %>
+        <%= link_to "Cart: #{cart.total_items}", "/cart" %>
+        <%= link_to "Logged in as #{current_user.name}", '/profile' %>
+      <% elsif current_admin? %>
+        <%= link_to "Log Out", '/logout', method: :delete %>
+        <%= link_to 'My Profile', '/profile' %>
+        <%= link_to 'Admin Dashboard', admin_path %>
+        <%= link_to "All Merchants", admin_merchants_path %>
+        <%= link_to "All Items", "/items" %>
+        <%= link_to 'All Users', '/admin/users' %>
+        <%= link_to "Logged in as #{current_user.name}", '/profile' %>
+      <% else %>
+        <%= link_to "Register", "/users/register" %>
+        <%= link_to "Login", '/login' %>
+        <%= link_to "Cart: #{cart.total_items}", "/cart" %>
+      <% end %>
+    </nav>
+
+    <% flash.each do |name, msg| %>
+      <div class= "<%=name%>-flash">
+        <p><%= msg %></p>
+      </div>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+<h1>Hello, <%= @user.name %>!</h1>
+
+<p><b>Name:</b> <%= @user.name %> </p>
+<p><b>Address:</b> <%= @user.address %> </p>
+<p><b>City:</b> <%= @user.city %> </p>
+<p><b>State:</b> <%= @user.state %> </p>
+<p><b>Zip:</b> <%= @user.zip %> </p>
+<p><b>Email:</b> <%= @user.email %> </p>
+
+
+<%= link_to 'Edit My Info', "/profile/edit?info_password=info", method: :get %>
+<%= link_to 'Edit My Password', "/profile/edit?info_password=password", method: :get %>
+
+<section id="orders">
+  <% if @user.user_order_count <= 0 %>
+    <h3>You Have No Orders</h3>
+  <% else %>
+    <h3><%= link_to 'My Orders', '/profile/orders' %></h3>
+  <% end %>
+</section>
